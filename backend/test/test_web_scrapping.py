@@ -163,10 +163,10 @@ def example_fastapi_integration():
     
     # Dependency injection for repositories and scraper
     def get_article_repository():
-        return SQLiteArticleRepository("news.db")
+        return SQLiteArticleRepository()
     
     def get_source_repository():
-        return SQLiteSourceRepository("news.db")
+        return SQLiteSourceRepository()
     
     def get_web_scraper():
         robots_cache = RobotsTxtCache()

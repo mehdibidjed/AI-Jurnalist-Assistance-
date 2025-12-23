@@ -4,7 +4,7 @@ from backend.app.infrastructure.ingestion.rss_collector import RSSCollector
 from backend.app.infrastructure.db.sqlite_repo import SQLiteArticleRepository
 
 # Step 1: Initialize repository (SQLite)
-repo = SQLiteArticleRepository(db_path="test_articles.db")
+repo = SQLiteArticleRepository()
 
 # Step 2: Initialize RSS collector with repository
 collector = RSSCollector(repository=repo)

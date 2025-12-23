@@ -9,7 +9,7 @@ from backend.app.domain.interfaces.source_repository import SourceRepository
 from backend.app.domain.value_object.scraping_policy import ScrapingPolicy
 
 class SQLiteArticleRepository(ArticleRepository):
-    def __init__(self, db_path: str = "articles.db"):
+    def __init__(self, db_path: str = "data/articles.db"):
         self.conn = sqlite3.connect(db_path)
         self._create_table()
 
