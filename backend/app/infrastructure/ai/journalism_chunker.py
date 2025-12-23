@@ -1,7 +1,6 @@
 from langchain_experimental.text_splitter import SemanticChunker
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from backend.app.domain.interfaces.Iarticle_chunker import IArticleChunker
-
+from langchain_huggingface import  HuggingFaceEmbeddings
 class JournalismChunker(IArticleChunker):
     """
     Splits news articles based on topical shifts,

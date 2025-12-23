@@ -11,7 +11,6 @@ def test_journalism_chunker_splits_text():
             MagicMock(page_content="Chunk B")
         ]
     )
-
     chunks = chunker.split("some article text")
 
     assert len(chunks) == 2

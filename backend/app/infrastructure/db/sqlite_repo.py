@@ -77,7 +77,7 @@ class SQLiteSourceRepository(SourceRepository):
     SQLite implementation of SourceRepository.
     """
     
-    def __init__(self, db_path: str):
+    def __init__(self, db_path: str="data/articles.db"):
         """Initialize repository"""
         self.db_path = db_path
         self._init_db()

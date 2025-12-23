@@ -23,6 +23,24 @@ def example_setup_scraping_source():
         max_articles_per_session=20,
         user_agent="NewsAggregator/1.0 (Educational; +contact@example.com)"
     )
+    france24_policy = ScrapingPolicy(
+    domain="france24.com",
+    allowed_paths=[
+        "/en/",
+        "/en/france/",
+        "/en/europe/",
+        "/en/africa/",
+        "/en/middle-east/",
+        "/en/business/",
+        "/en/sport/",
+        "/en/culture/"
+    ],
+    rate_limit_seconds=3,
+    respect_robots_txt=True,
+    max_articles_per_session=50,
+    user_agent="AI-Journalist-Assistant/1.0 (Academic Research; contact@example.com)"
+)
+
     ycombin_policy=ScrapingPolicy(
         domain="news.ycombinator.com",
         allowed_paths=[ "/","/item"],
@@ -31,7 +49,7 @@ def example_setup_scraping_source():
         max_articles_per_session=20,
         user_agent="NewsAggregator/1.0 (Educational; +contact@example.com)"
     )
-    test=ScrapingPolicy(
+    theguradian_policy=ScrapingPolicy(
     domain="theguardian.com",
     allowed_paths=[
         "/world/",
@@ -57,8 +75,15 @@ def example_setup_scraping_source():
     max_articles_per_session=40,
 )
 
+    reuters_policy = ScrapingPolicy(
+    domain="reuters.com",
+    allowed_paths=["/world/", "/business/", "/technology/"],
+    rate_limit_seconds=2,
+    max_articles_per_session=50,
+    respect_robots_txt=True
+    )
     # Create source entity
-    # bbc has a problem 
+    # bbc has a problem
     bbc_source = Source(
         name="BBC News",
         type=SourceType.WEB_SCRAPE,
@@ -73,12 +98,12 @@ def example_setup_scraping_source():
         is_active=True,
         scraping_policy=nasa_gove_policy
     )
-    test_source = Source(
+    theguradian_source = Source(
         name="The Guardian",
         type=SourceType.WEB_SCRAPE,
         url="https://www.theguardian.com",
         is_active=True,
-        scraping_policy=test
+        scraping_policy=theguradian_policy
     )
     ycombin_source=Source(
          name="ycombinator",
@@ -87,13 +112,14 @@ def example_setup_scraping_source():
         is_active=True,
         scraping_policy=ycombin_policy
     )
-    reuters_policy = ScrapingPolicy(
-    domain="reuters.com",
-    allowed_paths=["/world/", "/business/", "/technology/"],
-    rate_limit_seconds=2,
-    max_articles_per_session=50,
-    respect_robots_txt=True
-    )
+    france24_source = Source(
+    name="France 24",
+    type=SourceType.WEB_SCRAPE,
+    url="https://www.france24.com/en/",
+    is_active=True,
+    scraping_policy=france24_policy
+)
+
     nasa_source = Source(
     name="NASA APOD",
     type=SourceType.WEB_SCRAPE,
@@ -111,8 +137,8 @@ def example_setup_scraping_source():
     scraping_policy=reuters_policy
     # Save to repository
 )
-    source_repo = SQLiteSourceRepository("news.db")
-    saved_source = source_repo.save(nasa_source_gov)
+    source_repo = SQLiteSourceRepository()
+    saved_source = source_repo.save(theguradian_source)
 
     
     print(f"Created scraping source: {saved_source.name} (ID: {saved_source.id})")
@@ -127,8 +153,8 @@ def example_run_scraping():
     from backend.app.infrastructure.ingestion.robots_txt_cache import RobotsTxtCache
     
     # Initialize dependencies
-    article_repo = SQLiteArticleRepository("news.db")
-    source_repo = SQLiteSourceRepository("news.db")
+    article_repo = SQLiteArticleRepository()
+    source_repo = SQLiteSourceRepository()
     robots_cache = RobotsTxtCache()
     web_scraper = WebScraper(robots_cache)
     
