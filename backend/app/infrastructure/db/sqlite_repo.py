@@ -42,6 +42,27 @@ class SQLiteArticleRepository(ArticleRepository):
         )
         return cursor.fetchone() is not None
 
+    def get_all(self) -> list[Article]:
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT id, title, content, url, published_date, source
+            FROM articles
+        """)
+
+        rows = cursor.fetchall()
+
+        articles = [
+            Article(
+                title=row[1],
+                content=row[2],
+                url=row[3],
+                published_date=row[4],
+                source=row[5],
+            )
+            for row in rows
+        ]
+
+        return articles
     def find_by_url(self, url: str) -> Optional[Article]:
         cursor = self.conn.cursor()
         cursor.execute("SELECT title, content, url, published_date, source FROM articles WHERE url = ?", (url,))

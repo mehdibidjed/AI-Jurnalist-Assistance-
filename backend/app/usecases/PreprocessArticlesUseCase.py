@@ -1,24 +1,32 @@
-class PreprocessArticlesUseCase:
+import uuid
+from backend.app.domain.interfaces.Iarticle_repository import ArticleRepository
+from backend.app.domain.interfaces.Iarticle_chunker import IArticleChunker
+from backend.app.domain.interfaces.Iembedding_service import IEmbeddingService
+from backend.app.domain.interfaces.Ivector_repository import IVectorRepository
 
-    def __init__(self, repo, cleaner, chunker):
-        self.repo = repo
-        self.cleaner = cleaner
+class PreprocessArticlesUseCase:
+    def __init__(self,article_repo: ArticleRepository,chunker: IArticleChunker,embedder: IEmbeddingService,vector_repo: IVectorRepository):
+        self.article_repo=article_repo
         self.chunker = chunker
+        self.embedder = embedder
+        self.vector_repo = vector_repo
 
     def execute(self):
-        articles = self.repo.fetch_raw_articles()
+        articles = self.article_repo.get_all()
+        print(articles)
+        for article in articles:
+            chunks = self.chunker.split(article.content)
 
-        for article_id, raw_content in articles:
-            clean_text = self.cleaner.clean(raw_content)
+            embeddings = self.embedder.embed(chunks)
 
-            if len(clean_text) < 300:
-                continue
+            ids = [str(uuid.uuid4()) for _ in chunks]
+            metadatas = [
+                {
+                    "source": article.source,
+                    "chunk_index": i
+                }
+                for i in range(len(chunks))
+            ]
 
-            chunks = self.chunker.split(clean_text)
+            self.vector_repo.add(ids, embeddings, metadatas)
 
-            for idx, chunk in enumerate(chunks):
-                self.repo.save_processed_chunk(
-                    article_id=article_id,
-                    chunk_index=idx,
-                    content=chunk
-                )

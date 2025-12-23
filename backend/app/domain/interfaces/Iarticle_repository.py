@@ -31,3 +31,6 @@ class ArticleRepository(ABC):
         Return the Article if found, otherwise None.
         """
         pass
+    @abstractmethod
+    def get_all(self) -> list[Article]:
+        pass

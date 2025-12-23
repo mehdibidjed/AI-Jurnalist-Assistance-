@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from backend.app.infrastructure.db.vector_repo  import ChromaVectorRepository
+from backend.app.infrastructure.db.chroma_vector_repo  import ChromaVectorRepository
 
 def test_chroma_vector_repository_add_and_search():
     repo = ChromaVectorRepository(collection_name="test_articles")
@@ -30,3 +30,6 @@ def test_chroma_vector_repository_add_and_search():
     print("results")
     print(result)
     assert results == [{"title": "A"}]
+
+
+test_chroma_vector_repository_add_and_search()
