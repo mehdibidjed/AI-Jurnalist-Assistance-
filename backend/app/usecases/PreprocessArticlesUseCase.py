@@ -20,13 +20,14 @@ class PreprocessArticlesUseCase:
             embeddings = self.embedder.embed(chunks)
 
             ids = [str(uuid.uuid4()) for _ in chunks]
-            metadatas = [
-                {
-                    "source": article.source,
-                    "chunk_index": i
-                }
-                for i in range(len(chunks))
-            ]
+            metadatas = [{
+                "source": article.source,
+                "source_tier": "trusted",
+                "published_at": article.published_date,
+                "recent": True
+            }]
+
+
 
             self.vector_repo.add(ids, embeddings, metadatas)
 
