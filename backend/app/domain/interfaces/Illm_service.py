@@ -25,3 +25,7 @@ class ILlmService(ABC):
     @abstractmethod
     def generate_article(self, topic: str, context: List[str]) -> str:
         pass
+
+    @abstractmethod
+    def generate_article(self, topic: str)->str:
+        pass

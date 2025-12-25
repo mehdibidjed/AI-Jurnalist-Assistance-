@@ -16,7 +16,7 @@ const Home = () => {
 
         <div className="w-24 h-[2px] bg-gray-300 mb-6"></div>
         <h2 className="text-3xl font-bold text-[#2C3E50]">
-          News you can trust, intelligence you can feel
+          Intelegent Jounalism ..  Human control 
         </h2>
       </section>
 

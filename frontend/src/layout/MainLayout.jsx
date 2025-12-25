@@ -10,9 +10,7 @@ const MainLayout = ({ children }) => {
 
         <Outlet/>
       </main>
-      <footer className="bg-white border-t py-8 text-center text-gray-400 text-sm">
-        © 2025 JournAi - News you can trust, intelligence you can feel.
-      </footer>
+      
     </div>
   );
 };

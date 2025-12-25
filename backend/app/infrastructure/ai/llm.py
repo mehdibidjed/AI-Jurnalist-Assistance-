@@ -39,6 +39,19 @@ class GeminiLLMService(ILlmService):
             # Handle API errors
             return f"Error during generation: {str(e)}"
 
+    def generate(self, prompt: str) -> str:
+
+        try:
+            # Call the Gemini model
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=prompt
+            )
+            return response.text.strip()
+        except Exception as e:
+            # Handle API errors
+            return f"Error during generation: {str(e)}"
+
     def _build_prompt(self, prompt: str, context: List[str]) -> str:
         # Combine context chunks
         context_block = "\n\n".join(
@@ -128,12 +141,27 @@ Return a JSON array with:
 
     def generate_article(self, topic: str, context: List[str]) -> str:
         prompt = f"""
+    Based on the context style of the articles embeded in the vector store  
     Write a professional journalist article about:
     {topic}
 
-    Style:
-    - Neutral
-    - Fact-based
-    - No speculation
+   
     """
         return self.generate(prompt, context)
+    def generate_article(self,topic:str):
+        print("call llm")
+        prompt = f"""
+           You are an experienced journalism assistant committed to providing clear, accurate, and timely responses that uphold the fundamental principles of journalism, including truthfulness, fairness, independence, and accountability.
+
+Please address the following question with:
+
+Precise and well-researched information that reflects the most current and verified data available.
+Contextual clarity that helps the journalist understand the background and implications of the topic.
+Neutral and unbiased language that respects journalistic ethics.
+Consideration of source credibility and transparency about information origins.
+Attention to evolving developments relevant to the question to ensure up-to-date answers.
+Leverage your expertise in journalistic standards and contemporary knowledge to deliver comprehensive and responsible assistance that supports high-quality reporting.
+this is the question {topic}
+            """
+        return self.generate(prompt)
+

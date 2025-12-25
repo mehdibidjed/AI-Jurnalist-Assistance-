@@ -1,31 +1,39 @@
-from backend.app.usecases.PreprocessArticlesUseCase import PreprocessArticlesUseCase
-from backend.app.infrastructure.db.sqlite_repo import SQLiteArticleRepository
-from backend.app.infrastructure.ai.journalism_chunker import JournalismChunker
-from backend.app.infrastructure.ai.embeddings import EmbeddingService
-from backend.app.infrastructure.db.pinecone_vector_repo import PineconeVectorRepository
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+from backend.app.api.router import router # the file you showed
 
-def main():
-    # --- Infrastructure wiring ---
-    article_repo = SQLiteArticleRepository("../../data/articles.db")
-    chunker = JournalismChunker()
-    embedder = EmbeddingService()
-    vector_repo = PineconeVectorRepository(dimension=384)
-
-    # --- Use case ---
-
-    usecase = PreprocessArticlesUseCase(
-        article_repo=article_repo,
-        chunker=chunker,
-        embedder=embedder,
-        vector_repo=vector_repo
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="AI News Intelligence API",
+        description="Trending news, fact checking, fake news detection, and content generation",
+        version="1.0.0",
     )
+    # 1. Define allowed origins (your React app URL)
+    origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
 
-    # --- Execute ---
-    usecase.execute()
+    # 2. Add CORSMiddleware to the application
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,  # Allows your React app
+        allow_credentials=True,
+        allow_methods=["*"],  # Allows POST, OPTIONS, GET, etc.
+        allow_headers=["*"],  # Allows Content-Type, Authorization, etc.
+    )
+    # Register all routes
+    app.include_router(router, prefix="/api")
+    return app
 
-    print("✅ Article preprocessing completed successfully.")
 
-
+app = create_app()
 if __name__ == "__main__":
-    main()
+    import uvicorn
+    uvicorn.run(
+        "backend.app.main:app",
+        host="localhost",
+        port=8000,
+        reload=True
+    )

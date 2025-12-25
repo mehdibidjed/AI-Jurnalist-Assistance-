@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Pictures } from '../assets/Asset';
 const ListCard = ({ item, colorClass }) => (
   <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 flex flex-col h-full">
     <img src={item.image} alt={item.title} className="w-full h-48 object-cover" />

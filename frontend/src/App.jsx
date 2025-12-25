@@ -6,7 +6,8 @@ import TellUs from "./pages/TellUs";
 import NewsList from "./pages/NewsList";
 import AIDetection from "./pages/AIDetection";
 import AIJournalist from "./pages/AIJournalist";
-
+import Community from "./pages/Community";
+import Freelance from "./pages/Freelance"
 function App() {
   return (
     // 1. The Router must be the top-most component
@@ -15,9 +16,11 @@ function App() {
         {/* 2. MainLayout is a child of Router, so Navbar inside it is safe */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/tell-us" element={<TellUs />} />
+          <Route path="/chat-with-ai" element={<TellUs />} />
 
           <Route path="/news-list" element={<NewsList />} />
+          <Route path="/community" element={<Community/>}/>
+          <Route path="/freelance" element={<Freelance/>}/>
           <Route
             path="/ai-detection"
             element={<AIDetection/>}

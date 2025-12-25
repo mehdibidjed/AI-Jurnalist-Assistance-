@@ -1,11 +1,14 @@
 import React from 'react';
 
-export const JournalistInput = ({ label, type = "text", placeholder }) => (
+export const JournalistInput = ({ label, name, value, onChange, type = "text", placeholder }) => (
   <div className="mb-5">
     <label className="block text-[#0A3D62] font-bold text-sm mb-2">
       • {label}
     </label>
     <input 
+      name={name}
+      value={value}
+      onChange={onChange}
       type={type} 
       placeholder={placeholder}
       className="w-full p-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder:text-gray-300 text-sm"
