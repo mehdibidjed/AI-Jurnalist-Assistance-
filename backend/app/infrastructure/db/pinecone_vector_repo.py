@@ -46,4 +46,4 @@ class PineconeVectorRepository(IVectorRepository):
             include_metadata=True
         )
 
-        return [match["metadata"] for match in results["matches"]]
+        return [match for match in results["matches"]]

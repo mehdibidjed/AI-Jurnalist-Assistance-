@@ -15,19 +15,21 @@ class PreprocessArticlesUseCase:
         articles = self.article_repo.get_all()
         print(articles)
         for article in articles:
+
             chunks = self.chunker.split(article.content)
 
             embeddings = self.embedder.embed(chunks)
 
             ids = [str(uuid.uuid4()) for _ in chunks]
-            metadatas = [{
-                "source": article.source,
-                "source_tier": "trusted",
-                "published_at": article.published_date,
-                "recent": True
-            }]
-
-
-
+            metadatas = [
+                {
+                    "text": chunk,  # ← REQUIRED
+                    "source": article.source,
+                    "source_tier": "trusted",
+                    "published_at": article.published_date,
+                    "recent": True
+                }
+                for chunk in chunks
+            ]
             self.vector_repo.add(ids, embeddings, metadatas)
 

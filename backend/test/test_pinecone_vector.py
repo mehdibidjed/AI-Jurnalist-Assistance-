@@ -22,7 +22,7 @@ def test_pinecone_vector_repository_add_and_search(mock_pinecone):
     mock_index.upsert.assert_called_once()
 
     mock_index.query.return_value = {
-        "matches": [{"metadata": {"title": "Test"}}]
+        "matches": [{"title": "Test"}]
     }
 
     result = repo.search([0.1, 0.2], top_k=1)

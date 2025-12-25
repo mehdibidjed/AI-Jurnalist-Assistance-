@@ -11,7 +11,7 @@ def test_gemini_llm_generate_returns_text():
     ) as MockGemini:
 
         mock_model = MagicMock()
-        mock_model.return_value = mock_response
+        mock_model.invoke.return_value = mock_response  # ← THIS IS THE KEY
         MockGemini.return_value = mock_model
 
         llm = GeminiLLMService()
