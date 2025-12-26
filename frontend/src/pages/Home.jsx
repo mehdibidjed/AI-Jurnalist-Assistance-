@@ -2,7 +2,7 @@ import React from "react";
 import MainLayout from "../layout/MainLayout";
 import NewsCard from "../components/NewsCard";
 import { newsCards } from "../data/mockData";
-import { Icons } from "../assets/Asset";
+import { Icons,Pictures } from "../assets/Asset";
 
 const Home = () => {
   return (
@@ -10,7 +10,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center py-20 px-4 text-center">
         <div className="relative mb-8">
-          <img src={Icons.Logo} />
+          <img src={Pictures.LogoImage}  className=" "/>
           {/* Subtle Gear/Icon Detail */}
         </div>
 

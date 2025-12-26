@@ -8,6 +8,7 @@ import {
   MessageSquare,
   Radio,
   Search,
+  Shield,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
@@ -37,6 +38,11 @@ const Navbar = () => {
       name: "AI Detection",
       path: "ai-detection",
       icon: <ShieldCheck className="w-5" />,
+    },
+    {
+      name:"Content Auth",
+      path:"vi-check",
+      icon:<Shield />
     },
     {
       name: "AI Journalist",
