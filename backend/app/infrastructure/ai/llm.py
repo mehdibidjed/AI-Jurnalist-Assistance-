@@ -24,32 +24,24 @@ class GeminiLLMService(ILlmService):
         self.temperature = temperature
         self.max_output_tokens = max_output_tokens
 
-    def generate(self, prompt: str, context: List[str]) -> str:
-        # Build the full prompt including context
-        full_prompt = self._build_prompt(prompt, context)
+    def generate(self, prompt: str, context: List[str] = None) -> str:
+        """
+        Single generate method that handles both cases:
+        with context (RAG) and without context.
+        """
+        # If context is provided, build the full prompt; otherwise use prompt as is.
+        if context:
+            full_prompt = self._build_prompt(prompt, context)
+        else:
+            full_prompt = prompt
 
         try:
-            # Call the Gemini model
             response = self.client.models.generate_content(
                 model=self.model_name,
                 contents=full_prompt
             )
             return response.text.strip()
         except Exception as e:
-            # Handle API errors
-            return f"Error during generation: {str(e)}"
-
-    def generate(self, prompt: str) -> str:
-
-        try:
-            # Call the Gemini model
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=prompt
-            )
-            return response.text.strip()
-        except Exception as e:
-            # Handle API errors
             return f"Error during generation: {str(e)}"
 
     def _build_prompt(self, prompt: str, context: List[str]) -> str:
@@ -80,7 +72,7 @@ ANSWER:
         prompt = """
 Extract trending topics.
 Return a JSON array with:
-- topic
+- topic 
 - short description
 - confidence_score (0–100)
 """
@@ -126,7 +118,7 @@ Return a JSON array with:
     {article_text}
     """
         # 1. Generate the LLM output
-        result = self.generate(prompt, sources)
+        result = self.generate(prompt)
 
         # 2. Extract JSON from the result (in case LLM adds extra text)
         try:
@@ -162,6 +154,8 @@ Consideration of source credibility and transparency about information origins.
 Attention to evolving developments relevant to the question to ensure up-to-date answers.
 Leverage your expertise in journalistic standards and contemporary knowledge to deliver comprehensive and responsible assistance that supports high-quality reporting.
 this is the question {topic}
+if the topic is not  in jurnalism context  saz taht zou are just a jurnalist assistance 
+be more summerized in your response 
             """
         return self.generate(prompt)
 

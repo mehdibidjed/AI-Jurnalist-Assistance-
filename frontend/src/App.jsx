@@ -9,6 +9,7 @@ import AIJournalist from "./pages/AIJournalist";
 import Community from "./pages/Community";
 import Freelance from "./pages/Freelance";
 import MediaForensics from "./pages/Check_Fact";
+import CameraHub from "./pages/CameraHub";
 function App() {
   return (
     // 1. The Router must be the top-most component
@@ -25,6 +26,7 @@ function App() {
           <Route path="/ai-detection" element={<AIDetection />} />
           <Route path="/ai-journalist" element={<AIJournalist />} />
           <Route path="/vi-check" element={<MediaForensics/>}/>
+          <Route path="/camera-hub" element={<CameraHub/>}/>
         </Route>
       </Routes>
     </Router>
